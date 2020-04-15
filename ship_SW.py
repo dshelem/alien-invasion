@@ -15,12 +15,13 @@ class Ship:
         self.image = pygame.image.load('img/ship_smaller.png')
         self.rect = self.image.get_rect()
 
-        self._moving_left = False
-        self._moving_right = False
+        # Start each new ship at the center of the screen to the left.
+        self.rect.center = self.screen_rect.center
+        self.rect.left = self.rect.width
+        self.y = float(self.rect.y)
 
-        self.x = float(self.rect.x)
-
-        self.center_ship()
+        self._moving_up = False
+        self._moving_down = False
 
     def blitme(self):
         """Draw the ship at its current location."""
@@ -41,29 +42,30 @@ class Ship:
 
     def update(self):
         """Update the ship's position based on the movement flag."""
-        if self._moving_right and self.rect.right < self.screen_rect.right:
-            self.x += self._delta_position()
-        if self._moving_left and self.rect.left > self.screen_rect.left:
-            self.x -= self._delta_position()
+        if self._moving_up and self.rect.top > 0:
+            self.y -= self._delta_position()
+        if self._moving_down and self.rect.bottom < self.screen_rect.bottom:
+            self.y += self._delta_position()
 
-        self.rect.x = self.x
+        self.rect.y = self.y
 
-    def move_right(self):
-        """Sets moving right flag to true and starts timer."""
-        self._moving_right = True
+    def move_up(self):
+        """Sets moving up flag to true and starts timer."""
+        self._moving_up = True
 
-    def move_left(self):
-        """Sets moving right flag to true and starts timer."""
-        self._moving_left = True
+    def move_down(self):
+        """Sets moving down flag to true and starts timer."""
+        self._moving_down = True
 
     def stop_moving(self):
         """Sets moving right & left flags to false."""
-        self._moving_left = False
-        self._moving_right = False
+        self._moving_up = False
+        self._moving_down = False
 
     def center_ship(self):
-        """Center the ship on the screen."""
-        self.rect.midbottom = self.screen_rect.midbottom
-        self.x = float(self.rect.x)
+        """Center ship to starting position"""
+        self.rect.center = self.screen_rect.center
+        self.rect.left = self.rect.width
+        self.y = float(self.rect.y)
 
         self.stop_moving()
