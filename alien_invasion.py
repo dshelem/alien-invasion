@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 from random import randint
+import atexit
 
 import pygame
 
@@ -12,7 +13,9 @@ from bullet import Bullet
 from alien import Alien
 from star import Star
 from button import Button
+from game_over_badge import GameOverBadge
 from mixer import Mixer
+
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -46,11 +49,12 @@ class AlienInvasion:
         self._create_fleet()
         self._create_stars()
 
-        # Create the Play button.
+        # Create the Play button and Game Over badge
         self.play_button = Button(self, "Play")
+        self.game_over_badge = GameOverBadge(self, "Game Over")
 
+        # Sounds and music mixer
         self.mixer = Mixer(self)
-        self.mixer.play_music()
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -89,6 +93,7 @@ class AlienInvasion:
         self.settings.initialize_dynamic_settings()
         self.stats.reset_stats()
         self.stats.game_active = True
+        self.stats.game_over = False
 
         # Get rid of any remaining aliens and bullets.
         self.aliens.empty()
@@ -97,6 +102,14 @@ class AlienInvasion:
         # Create a new fleet and center the ship.
         self._create_fleet()
         self.ship.center_ship()
+
+        # Update score and level.
+        self.sb.prep_score()
+        self.sb.prep_level()
+        self.sb.prep_ships()
+
+        # Start background music
+        self.mixer.play_music()
 
         pygame.mouse.set_visible(False)
 
@@ -137,12 +150,25 @@ class AlienInvasion:
             self.mixer.stop_alien_crashed()
             self.mixer.play_alien_crashed()
             self.sb.prep_score()
+            self.sb.check_high_score()
 
         if not self.aliens:
-            # Destroy existing bullets and create new fleet.
-            self.bullets.empty()
-            self._create_fleet()
-            self.settings.increase_game_speed()
+            self._level_up()
+
+    def _level_up(self):
+        """Fleet was destroyed: level up!"""
+        # Destroy existing bullets and create new fleet.
+        self.bullets.empty()
+        self._create_fleet()
+        self.settings.increase_game_speed()
+
+        # Increase level.
+        self.stats.level += 1
+        self.sb.prep_level()
+
+    def save_high_score(self):
+        """Saves high score on exit"""
+        self.stats.save_high_score()
 
     def _update_aliens(self):
         """
@@ -163,8 +189,9 @@ class AlienInvasion:
         """Respond to the ship being hit by an alien."""
 
         if self.stats.ships_left >= 2:
-            # Decrement ships left.
+            # Decrement ships left and update scoreboard
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()
@@ -179,9 +206,13 @@ class AlienInvasion:
         else:
             # Game Over
             self.stats.game_active = False
+            self.stats.game_over = True
             pygame.mouse.set_visible(True)
             self.play_button.draw_button()
+            self.mixer.stop_music()
             self.mixer.play_game_over()
+            self.stats.ships_left = 0
+            self.sb.prep_ships()
 
     def _check_aliens_bottom(self):
         """Check if any aliens have reached the bottom of the screen."""
@@ -280,6 +311,9 @@ class AlienInvasion:
         if not self.stats.game_active:
             self.play_button.draw_button()
 
+        if self.stats.game_over:
+            self.game_over_badge.draw_badge()
+
         # Make the most recently drawn screen visible.
         pygame.display.flip()
 
@@ -306,4 +340,11 @@ class AlienInvasion:
 if __name__ == '__main__':
     # Make a game instance, and run the game.
     game = AlienInvasion()
+
+
+    def at_exit_func():
+        game.save_high_score()
+
+
+    atexit.register(at_exit_func)
     game.run_game()

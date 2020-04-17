@@ -9,10 +9,12 @@ class Mixer:
         self.settings = ai_game.settings
         self.sound_on = self.settings.sound_on
 
-        if self.sound_on:
-            self.laser_shot = mixer.Sound('music/laser_shot.wav')
-            self.alien_crashed = mixer.Sound('music/alien_crashed.wav')
-            self.game_over = mixer.Sound('music/game_over.wav')
+        # Since sound on/off flag should be very dynamic,
+        #   we preload sounds in case they would be needed at
+        #   any point in time.
+        self.laser_shot = mixer.Sound('music/laser_shot.wav')
+        self.alien_crashed = mixer.Sound('music/alien_crashed.wav')
+        self.game_over = mixer.Sound('music/game_over.wav')
 
     def play_music(self):
         """Starts to play background music."""

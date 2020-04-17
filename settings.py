@@ -21,6 +21,7 @@ class Settings:
         self.bullet_height = 15
         # self.bullet_color = (60, 60, 60)
         self.bullet_color = (254, 27, 7)
+        # self.bullet_color = (255, 255, 255)
         self.bullets_allowed = 5
 
         # Fleet seetings.
