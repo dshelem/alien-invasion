@@ -13,6 +13,7 @@ from bullet import Bullet
 from alien import Alien
 from star import Star
 from button import Button
+from sound_button import SoundButton
 from game_over_badge import GameOverBadge
 from mixer import Mixer
 
@@ -55,6 +56,8 @@ class AlienInvasion:
 
         # Sounds and music mixer
         self.mixer = Mixer(self)
+        # Sound ON/OFF button
+        self.sound_button = SoundButton(self)
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -80,12 +83,20 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button_clicked(mouse_pos)
+                self._check_sound_button_clicked(mouse_pos)
 
     def _check_play_button_clicked(self, mouse_pos):
         """Start a new game when the player clicks Play button."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
             self._start_game()
+
+    def _check_sound_button_clicked(self, mouse_pos):
+        """Sound ON/OFF when the player clicks sound button."""
+        button_clicked = self.sound_button.rect.collidepoint(mouse_pos)
+        if button_clicked:
+            self.settings.sound_on = not self.settings.sound_on
+            self._start_stop_music()
 
     def _start_game(self):
         """Restarts game."""
@@ -103,15 +114,13 @@ class AlienInvasion:
         self._create_fleet()
         self.ship.center_ship()
 
-        # Update score and level.
-        self.sb.prep_score()
-        self.sb.prep_level()
-        self.sb.prep_ships()
+        # Update scores, level and ships.
+        self.sb.prep_images()
 
         # Start background music
         self.mixer.play_music()
 
-        pygame.mouse.set_visible(False)
+        # pygame.mouse.set_visible(True)
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
@@ -167,8 +176,12 @@ class AlienInvasion:
         self.sb.prep_level()
 
     def save_high_score(self):
-        """Saves high score on exit"""
+        """Save high score to the file"""
         self.stats.save_high_score()
+
+    def save_settings(self):
+        """Save settings to the file"""
+        self.settings.save_settings()
 
     def _update_aliens(self):
         """
@@ -207,7 +220,7 @@ class AlienInvasion:
             # Game Over
             self.stats.game_active = False
             self.stats.game_over = True
-            pygame.mouse.set_visible(True)
+            # pygame.mouse.set_visible(True)
             self.play_button.draw_button()
             self.mixer.stop_music()
             self.mixer.play_game_over()
@@ -234,9 +247,9 @@ class AlienInvasion:
 
         # Determine the number of rows of aliens that fit on the screen.
         ship_height = self.ship.rect.height
-        available_space_y = (self.settings.screen_height - 3 * alien_height
+        available_space_y = (self.settings.screen_height - 2 * alien_height
                              - ship_height)
-        number_rows = available_space_y // (2 * alien_height)
+        number_rows = available_space_y // int(1.5 * alien_height)
 
         # Create the full fleet of aliens.
         for row_number in range(number_rows):
@@ -271,15 +284,15 @@ class AlienInvasion:
         # Create a star and find the number of stars in a row.
         # Spacing between each star is equal to one star width.
         star = Star(self)
-        star_width, star_height = star.rect_root.size
+        star_width, star_height = star.rect.size
         available_space_x = self.settings.screen_width - int(2 * star_width)
-        number_columns = available_space_x // int(1.8 * star_width)
+        number_columns = available_space_x // int(2.5 * star_width)
 
         # Determine the number of rows of stars that fit on the screen.
         ship_height = self.ship.rect.height
         available_space_y = (self.settings.screen_height - int(2 * star_height)
                              - ship_height)
-        number_rows = available_space_y // int(1.5 * star_height)
+        number_rows = available_space_y // int(3 * star_height)
 
         # Create the full set of stars.
         for row_number in range(number_rows):
@@ -289,10 +302,10 @@ class AlienInvasion:
     def _create_star(self, column_number, row_number):
         """Create a star and place it on the screen."""
         star = Star(self)
-        star_width, star_height = star.rect_root.size
-        star.x = star_width + 2 * star_width * column_number + randint(-10, 10)
+        star_width, star_height = star.rect.size
+        star.x = star_width + 3 * star_width * column_number + randint(-50, 50)
         star.rect.x = star.x
-        star.y = star_height + 2 * star_height * row_number + randint(-10, 10)
+        star.y = star_height + 3 * star_height * row_number + randint(-50, 50)
         star.rect.y = star.y
         self.stars.add(star)
 
@@ -301,12 +314,19 @@ class AlienInvasion:
         self.screen.fill(self.settings.bg_color)
         self.stars.draw(self.screen)
         self.aliens.draw(self.screen)
+        # If FPS flag is on - show FPS for the game
+        if self.settings.show_fps:
+            self.sb.prep_fps()
+            self.sb.show_fps()
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
 
         # Draw the score information.
         self.sb.show_score()
+
+        # Draw sound ON/OFF button
+        self.sound_button.draw_sound_button()
 
         if not self.stats.game_active:
             self.play_button.draw_button()
@@ -330,6 +350,18 @@ class AlienInvasion:
         elif (event.key in (pygame.K_p, pygame.K_SPACE) and
               not self.stats.game_active):
             self._start_game()
+        elif event.key == pygame.K_s:
+            self.settings.sound_on = not self.settings.sound_on
+            self._start_stop_music()
+        elif event.key == pygame.K_f:
+            self.settings.show_fps = not self.settings.show_fps
+
+    def _start_stop_music(self):
+        """Start or stop music depending on sound_on flag"""
+        if self.settings.sound_on and self.stats.game_active:
+            self.mixer.play_music()
+        else:
+            self.mixer.stop_music()
 
     def _check_keyup_events(self, event):
         """Respond to key releases."""
@@ -341,10 +373,10 @@ if __name__ == '__main__':
     # Make a game instance, and run the game.
     game = AlienInvasion()
 
-
     def at_exit_func():
+        """Funcs to call on exit"""
+        game.save_settings()
         game.save_high_score()
-
 
     atexit.register(at_exit_func)
     game.run_game()

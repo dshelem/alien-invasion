@@ -10,7 +10,7 @@ class GameOverBadge:
 
         # Set the dimensions and properties of the button.
         self.width, self.height = 200, 50
-        self.badge_color = (255, 0, 0)
+        self.badge_color = (255, 28, 89)
         self.text_color = (255, 255, 255)
         self.border_color = (255, 255, 255)
         self.border_width = 0

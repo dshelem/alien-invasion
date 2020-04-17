@@ -1,5 +1,4 @@
 import pygame
-from random import choice
 from pygame.sprite import Sprite
 
 
@@ -11,16 +10,11 @@ class Star(Sprite):
         super().__init__()
         self.screen = ai_game.screen
 
-        # Load the root star image and set its rect attribute.
-        self.image = pygame.image.load('img/star.png')
-        self.rect_root = self.image.get_rect()
-
-        # Load the random sized image and set its rect attribute.
-        self.images = ('img/star_xs.png', 'img/star_xxs.png', 'img/star.png',)
-        self.image = pygame.image.load(choice(self.images))
+        # Load the star image and set its rect attribute.
+        self.image = pygame.image.load('img/star_xs.png')
         self.rect = self.image.get_rect()
 
-        # Start each new star near the top left of the screen.
+        # Start each new star near  the top left of the screen.
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
 

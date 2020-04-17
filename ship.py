@@ -4,7 +4,7 @@ from pygame.sprite import Sprite
 class Ship(Sprite):
     """A class to manage the ship."""
 
-    def __init__(self, ai_game):
+    def __init__(self, ai_game, extra_small=False):
         """Initialize the ship and set its starting position."""
         super().__init__()
 
@@ -14,8 +14,14 @@ class Ship(Sprite):
         # Reference to settings instance.
         self.settings = ai_game.settings
 
+        # Extra small image of ship is used for scoreboard
+        if extra_small:
+            self.file_name = 'img/ship_xxs.png'
+        else:
+            self.file_name = 'img/ship_small.png'
+
         # Load the ship image and get its rect.
-        self.image = pygame.image.load('img/ship_smaller.png')
+        self.image = pygame.image.load(self.file_name)
         self.rect = self.image.get_rect()
 
         self._moving_left = False

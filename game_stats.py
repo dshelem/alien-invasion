@@ -13,9 +13,9 @@ class GameStats:
         self.game_over = False
 
         # Read high score from file.
-        self.data_file_name = 'high_score.dat'
+        self.file_name = 'high_score.dat'
         try:
-            with open(self.data_file_name, 'r') as f:
+            with open(self.file_name, 'r') as f:
                 self.high_score = f.read()
 
             try:
@@ -34,5 +34,8 @@ class GameStats:
 
     def save_high_score(self):
         """Save high score to file."""
-        with open(self.data_file_name, 'w') as f:
-            f.write(str(self.high_score))
+        try:
+            with open(self.file_name, 'w') as f:
+                f.write(str(self.high_score))
+        except:
+            print(f"ERROR: Cannot open file {self.file_name} for writing.")

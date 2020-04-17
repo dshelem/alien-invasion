@@ -1,3 +1,5 @@
+import json
+
 class Settings:
     """A class to store all settings for the game."""
 
@@ -17,12 +19,7 @@ class Settings:
         self.ship_limit = 3
 
         # Bullet settings.
-        self.bullet_width = 3
-        self.bullet_height = 15
-        # self.bullet_color = (60, 60, 60)
-        self.bullet_color = (254, 27, 7)
-        # self.bullet_color = (255, 255, 255)
-        self.bullets_allowed = 5
+        self.bullets_allowed = 7
 
         # Fleet seetings.
         self.fleet_drop_speed = 10
@@ -39,7 +36,17 @@ class Settings:
 
         # Sound settings
         self.music_volume = 0.4
-        self.sound_on = True
+
+        # Try to load sound_on setting from file
+        self.file_name = 'settings.json'
+        try:
+            with open(self.file_name, 'r') as f:
+                self.sound_on = json.load(f)
+        except FileNotFoundError:
+            self.sound_on = True
+
+        # Show FPS during the game
+        self.show_fps = False
 
         # Setting/resetting dynamic values
         self.initialize_dynamic_settings()
@@ -62,3 +69,11 @@ class Settings:
         self.alien_speed *= self.speedup_scale
 
         self.alien_points = int(self.alien_points * self.score_scale)
+
+    def save_settings(self):
+        """Save storable settings to file"""
+        try:
+            with open(self.file_name, 'w') as f:
+                json.dump(self.sound_on, f)
+        except:
+            print(f"ERROR: Cannot open file {self.file_name} for writing.")

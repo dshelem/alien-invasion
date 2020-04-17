@@ -1,3 +1,5 @@
 __pycache__/
 venv/
 venv2/
+high_score.dat
+settings.json
