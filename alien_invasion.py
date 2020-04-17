@@ -1,3 +1,19 @@
+"""
+    Main module for Alien Invasion game
+
+    Run it to run the game
+
+    Keyboard shortcuts:
+        P/SPACE - start the game
+        Q/ESCAPE - quit the game
+
+        LEFT/RIGHT - move the ship
+        SPACE - fire bullet
+
+        S - sound ON/OFF
+        F - FPS ON/OFF
+"""
+
 import sys
 from time import sleep
 from random import randint
@@ -17,6 +33,14 @@ from sound_button import SoundButton
 from game_over_badge import GameOverBadge
 from mixer import Mixer
 
+__author__ = "Denis Shelemekh"
+__copyright__ = "Copyright 2020, Denis Shelemekh"
+__credits__ = ["Eric Matthes", "flaticon.com"]
+__license__ = "GPL"
+__version__ = "1.0.1"
+__maintainer__ = "Denis Shelemekh"
+__email__ = "d.shelem@gmail.com"
+__status__ = "Production"
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""

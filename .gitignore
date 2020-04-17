@@ -1,5 +1,5 @@
 __pycache__/
-venv/
-venv2/
+img/
+music/
 high_score.dat
 settings.json
