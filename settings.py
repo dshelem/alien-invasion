@@ -3,14 +3,19 @@ import json
 class Settings:
     """A class to store all settings for the game."""
 
+    SHIP_SPEED = 5
+    BULLET_SPEED = 5
+    ALIEN_SPEED = 1.5
+    ALIEN_POINTS = 50
+
     def __init__(self):
         """Init the game's static settings."""
         # Window settings.
         self.caption = "Alien Invasion"
 
         # Screen settings.
-        self.screen_width = 1200
-        self.screen_height = 800
+        self.screen_width = 1280
+        self.screen_height = 720
         self.bg_color = (0, 191, 255)
         # Full screen?
         self.full_screen = False
@@ -53,14 +58,14 @@ class Settings:
 
     def initialize_dynamic_settings(self):
         """Init settings that change throughout the game."""
-        self.ship_speed = 5
-        self.bullet_speed = 5
-        self.alien_speed = 1.5
+        self.ship_speed = self.SHIP_SPEED
+        self.bullet_speed = self.BULLET_SPEED
+        self.alien_speed = self.ALIEN_SPEED
         # Fleet direction: 1 represents right; -1 represents left.
         self.fleet_direction = 1
 
         # Scoring
-        self.alien_points = 50
+        self.alien_points = self.ALIEN_POINTS
 
     def increase_game_speed(self):
         """Increase game speed settings and alien point values."""
@@ -71,7 +76,7 @@ class Settings:
         self.alien_points = int(self.alien_points * self.score_scale)
 
     def save_settings(self):
-        """Save storable settings to file"""
+        """Save storable settings to file."""
         try:
             with open(self.file_name, 'w') as f:
                 json.dump(self.sound_on, f)

@@ -31,4 +31,4 @@ class Alien(Sprite):
     def update(self):
         """Update position of the alien."""
         self.x += self.settings.alien_speed * self.settings.fleet_direction
-        self.rect.x = self.x
+        self.rect.x = int(self.x)

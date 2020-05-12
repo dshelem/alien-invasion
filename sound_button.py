@@ -12,7 +12,7 @@ class SoundButton(Sprite):
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
 
-        # Load the star image and set its rect attribute.
+        # Load the button image and set its rect attribute.
         self.image_sound_on = pygame.image.load('img/sound_on.png')
         self.image_sound_off = pygame.image.load('img/sound_off.png')
         self.rect = self.image_sound_on.get_rect()
@@ -22,7 +22,7 @@ class SoundButton(Sprite):
         self.rect.left = 350
 
     def draw_sound_button(self):
-        """Draw the button to the screen depending on sound on flag."""
+        """Draw the button to the screen depending on sound-on flag."""
         if self.settings.sound_on:
             self.screen.blit(self.image_sound_on, self.rect)
         else:

@@ -4,6 +4,7 @@ import pygame.time
 
 from ship import Ship
 
+
 class Scoreboard:
     """A class to display scoring information."""
 
@@ -18,11 +19,11 @@ class Scoreboard:
         # Font settings.
         self.text_color = (255, 255, 255)
         self.font = pygame.font.SysFont(None, 48)
+        # For FPS
         self.font_small = pygame.font.SysFont(None, 16)
         self.high_score_text_color = (255, 255, 255)
-        self.level_text_color = (255, 255, 255 )
+        self.level_text_color = (255, 255, 255)
 
-        # self.bg_color = (255, 255, 255)
         self.bg_color = None
 
         # Prepare the initial score, level and left ships images.
@@ -32,7 +33,7 @@ class Scoreboard:
         self.clock = pygame.time.Clock()
 
     def prep_images(self):
-        """Prepare images for scoreboard"""
+        """Prepare images for scoreboard."""
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
@@ -75,7 +76,7 @@ class Scoreboard:
         self.level_rect.top = self.score_rect.bottom + 20
 
     def prep_fps(self):
-        """Prep fps to display"""
+        """Prep fps to display."""
         # Update clock. get_fps() wouldn't work without it
         self.clock.tick()
         fps_str = f"FPS: {int(self.clock.get_fps())}"
@@ -100,17 +101,15 @@ class Scoreboard:
             self.ships.add(ship)
 
     def show_score(self):
-        """Draw scores. level and ships to the screen."""
+        """Draw scores, level and ships to the screen."""
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
         self.ships.draw(self.screen)
 
-
     def show_fps(self):
         """Draw FPS"""
         self.screen.blit(self.fps_image, self.fps_rect)
-
 
     def check_high_score(self):
         """Check to see if there's a new high score."""

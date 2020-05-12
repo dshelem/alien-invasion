@@ -12,6 +12,10 @@
 
         S - sound ON/OFF
         F - FPS ON/OFF
+
+    Mouse-clickable objects:
+        PLAY button
+        Sound ON/OFF button
 """
 
 import sys
@@ -41,6 +45,7 @@ __version__ = "1.0.1"
 __maintainer__ = "Denis Shelemekh"
 __email__ = "d.shelem@gmail.com"
 __status__ = "Production"
+
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -200,11 +205,11 @@ class AlienInvasion:
         self.sb.prep_level()
 
     def save_high_score(self):
-        """Save high score to the file"""
+        """Save high score to the file."""
         self.stats.save_high_score()
 
     def save_settings(self):
-        """Save settings to the file"""
+        """Save settings to the file."""
         self.settings.save_settings()
 
     def _update_aliens(self):

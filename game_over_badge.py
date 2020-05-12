@@ -1,7 +1,8 @@
 import pygame.font
 
+
 class GameOverBadge:
-    """Class for creating game over badge in the game."""
+    """Class for creating 'game over' badge in the game."""
 
     def __init__(self, ai_game, msg):
         """Init badge attributes."""

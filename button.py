@@ -1,5 +1,6 @@
 import pygame.font
 
+
 class Button:
     """Class for creating buttons in the game."""
 
@@ -18,7 +19,7 @@ class Button:
 
         # Build inner rectangle for border effect
         self.inner_rect = pygame.Rect(0, 0, self.width - 2 * self.border_width,
-                                 self.height - 2 * self.border_width)
+                                      self.height - 2 * self.border_width)
         self.inner_rect.center = self.screen_rect.center
 
         # Build the button's rect object and center it.
@@ -31,7 +32,7 @@ class Button:
     def _prep_msg(self, msg):
         """Turn msg into a rendered image and center text on the button."""
         self.msg_image = self.font.render(msg, True, self.text_color,
-                    self.button_color)
+                                          self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
 
@@ -40,8 +41,3 @@ class Button:
         self.screen.fill(self.border_color, self.rect)
         self.screen.fill(self.button_color, self.inner_rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)
-        #
-        # print("Drawing button:")
-        # print(f"self.button_color: {self.button_color}")
-        # print(f"self.border_color: {self.border_color}")
-        # print(f"self.border_width: {self.border_width}")

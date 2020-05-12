@@ -1,5 +1,6 @@
 __pycache__/
-img/
-music/
 high_score.dat
 settings.json
+venv/
+venv2/
+.idea
