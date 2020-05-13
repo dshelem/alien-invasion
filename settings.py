@@ -18,7 +18,7 @@ class Settings:
         self.screen_height = 720
         self.bg_color = (0, 191, 255)
         # Full screen?
-        self.full_screen = False
+        self.full_screen = True
 
         # Ship settings.
         self.ship_limit = 3
