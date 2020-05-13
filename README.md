@@ -2,7 +2,9 @@
 
 ### That is the clone of popular arcade game written with Python 3 and Pygame. 
 
-This repository contains source code of the game. With it included sounds and quite pretty image assets. 
+This repository contains source code of the game. With it included sounds and quite pretty image assets: 
+
+![screen shot](screen_shot.jpg "Screenshot")
 
 The game is thoroughly tested. Please have a look at alien-invasion/coverage_report/index.html file for coverage details.
 
