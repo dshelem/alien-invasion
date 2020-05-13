@@ -480,8 +480,7 @@ class TestSettingsClass(unittest.TestCase):
         self.assertEqual(self.settings.SHIP_SPEED, self.settings.ship_speed / self.settings.speedup_scale)
         self.assertEqual(self.settings.BULLET_SPEED, self.settings.bullet_speed / self.settings.speedup_scale)
         self.assertEqual(self.settings.ALIEN_SPEED, self.settings.alien_speed / self.settings.speedup_scale)
-        self.assertAlmostEqual(self.settings.ALIEN_POINTS, self.settings.alien_points / self.settings.speedup_scale,
-                               delta=8.0)
+        self.assertEqual(self.settings.ALIEN_POINTS, self.settings.alien_points / self.settings.score_scale)
 
 
 class TestShipClass(unittest.TestCase):
