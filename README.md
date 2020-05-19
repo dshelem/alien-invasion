@@ -10,7 +10,7 @@ The game is thoroughly tested. Please have a look at alien-invasion/coverage_rep
 
 This project is licensed under the terms of the MIT license.
 
-If you have any questions, comments or ideas, contact me at d dot shelem at gmail dot com.
+If you have any questions, comments or ideas, contact me at denis at shelemekh dot com.
 
 Thanks! :sparkling_heart:
 
