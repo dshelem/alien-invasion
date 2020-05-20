@@ -16,10 +16,10 @@ Thanks! :sparkling_heart:
 
 ## Installation
 
-1. Fork poject and clone it to your local project directory with
+1. Clone project to your local project directory with
 
 ```
-$ git clone [url]
+$ git clone https://github.com/dshelemekh/alien-invasion.git
 ```
 
 2. Create virtual environment and activate it
