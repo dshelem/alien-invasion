@@ -19,7 +19,7 @@ Thanks! :sparkling_heart:
 1. Clone project to your local project directory with
 
 ```
-$ git clone https://github.com/dshelemekh/alien-invasion.git
+$ git clone https://github.com/denshelemekh/alien-invasion.git
 ```
 
 2. Create virtual environment and activate it
