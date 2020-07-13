@@ -1,26 +1,23 @@
+"""
+Tests for Alien Invasion game
+"""
+
 import unittest
 
 from pygame.sprite import Group
 
-from alien_invasion import AlienInvasion
-from alien import Alien
-from bullet import Bullet
-from button import Button
-from game_over_badge import GameOverBadge
-from game_stats import GameStats
-from mixer import Mixer
-from scoreboard import Scoreboard
-from settings import Settings
+# Import _AIGameSingleton for testing
+# Since setUp function is called for every test method, we are creating all required objects only once.
+from .ai_game_singleton import ai_sng
+
 from ship import Ship
-from sound_button import SoundButton
-from star import Star
 
 
 class TestAlienClass(unittest.TestCase):
     """Testing Alien class."""
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.alien = Alien(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.alien = ai_sng.alien
 
     def test_alien_screen(self):
         """Test screen is set."""
@@ -74,8 +71,8 @@ class TestAlienClass(unittest.TestCase):
 class TestBulletClass(unittest.TestCase):
     """Testing Bullet class."""
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.bullet = Bullet(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.bullet = ai_sng.bullet
 
     def test_bullet_screen(self):
         """Test screen is set."""
@@ -111,8 +108,8 @@ class TestBulletClass(unittest.TestCase):
 class TestButtonClass(unittest.TestCase):
     """Testing Button class."""
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.button = Button(self.ai_game, "Test Msg")
+        self.ai_game = ai_sng.ai_game
+        self.button = ai_sng.button
 
     def test_button_screen(self):
         """Test screen is set."""
@@ -170,8 +167,8 @@ class TestButtonClass(unittest.TestCase):
 class TestGameOverBadgeClass(unittest.TestCase):
     """Testing GameOverBadge class."""
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.game_over_badge = GameOverBadge(self.ai_game, "Test Msg")
+        self.ai_game = ai_sng.ai_game
+        self.game_over_badge = ai_sng.game_over_badge
 
     def test_game_over_badge_screen(self):
         """Test screen is set."""
@@ -229,8 +226,8 @@ class TestGameOverBadgeClass(unittest.TestCase):
 class TestGameStatsClass(unittest.TestCase):
     """Testing GameStats class."""
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.game_stats = GameStats(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.game_stats = ai_sng.game_stats
 
     def test_game_stats_settings(self):
         """Checking settings is not None."""
@@ -275,8 +272,8 @@ class TestGameStatsClass(unittest.TestCase):
 class TestMixerClass(unittest.TestCase):
     """Testing Mixer class."""
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.mixer = Mixer(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.mixer = ai_sng.mixer
 
     def test_mixer_sound_on_off_flag(self):
         """Checking sound on/off flag is present."""
@@ -298,8 +295,8 @@ class TestMixerClass(unittest.TestCase):
 class TestScoreboardClass(unittest.TestCase):
     """Testing Scoreboard class."""
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.score_board = Scoreboard(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.score_board = ai_sng.score_board
 
     def test_score_board_screen(self):
         """Test screen is set."""
@@ -398,7 +395,7 @@ class TestScoreboardClass(unittest.TestCase):
 class TestSettingsClass(unittest.TestCase):
     """Testing Settings class."""
     def setUp(self):
-        self.settings = Settings()
+        self.settings = ai_sng.settings
 
     def test_settings_caption(self):
         """Checking caption attribute."""
@@ -487,8 +484,8 @@ class TestShipClass(unittest.TestCase):
     """Testing Ship class."""
 
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.ship = Ship(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.ship = ai_sng.ship
 
     def test_ship_screen(self):
         """Test screen is set."""
@@ -579,8 +576,8 @@ class TestSoundButtonClass(unittest.TestCase):
     """Testing SoundButton class."""
 
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.sound_button = SoundButton(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.sound_button = ai_sng.sound_button
 
     def test_sound_button_settings(self):
         """Test settings are present."""
@@ -615,8 +612,8 @@ class TestStarClass(unittest.TestCase):
     """Testing Star class."""
 
     def setUp(self):
-        self.ai_game = AlienInvasion()
-        self.star = Star(self.ai_game)
+        self.ai_game = ai_sng.ai_game
+        self.star = ai_sng.star
 
     def test_star_screen(self):
         """Test screen is set."""
@@ -647,7 +644,7 @@ class TestAlienInvasionClass(unittest.TestCase):
     """Testing AlienInvasion class."""
 
     def setUp(self):
-        self.ai_game = AlienInvasion()
+        self.ai_game = ai_sng.ai_game
 
     def test_alien_invasion_settings(self):
         """Test settings are present."""
